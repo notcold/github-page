@@ -1,5 +1,7 @@
 FROM alpine:latest
 
+VOLUME /site
+
 LABEL maintainer="notcold <shikuan1992@gmail.com>"
 
 EXPOSE 4000
@@ -19,6 +21,7 @@ RUN apk update && \
     ruby \
     ruby-rdoc \
     ruby-irb \
+    ruby-bundler \
     ruby-nokogiri \
     ruby-dev \
     glib-dev \
