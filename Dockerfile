@@ -31,7 +31,6 @@ RUN apk update && \
     gem install github-pages --version 228 && \
     gem install jekyll-watch && \
     gem install jekyll-admin && \
-    gem install bundler -v 1.17.3 \
     apk del gcc g++ binutils bison perl nodejs make curl && \
     rm -rf /var/cache/apk/*  \
 CMD ["exec", "jekyll"]
