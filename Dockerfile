@@ -21,8 +21,6 @@ RUN gem install bundler -v 2.4.22
 RUN gem install jekyll -v 3.9.5
 RUN gem install nokogiri -v 1.15.6
 
-COPY Gemfile Gemfile
-
 RUN NOKOGIRI_USE_SYSTEM_LIBRARIES=true bundle install
 
 CMD ["exec", "jekyll"]
