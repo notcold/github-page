@@ -1,37 +1,24 @@
-FROM alpine:latest
+ARG RUBY_VERSION=2.7.4
+FROM ruby:$RUBY_VERSION-slim
 
-VOLUME /site
-
-LABEL maintainer="notcold <shikuan1992@gmail.com>"
-
-EXPOSE 4000
-
-WORKDIR /site
-
-RUN apk update && \
-    apk --update add \
-    gcc \
-    g++ \
-    make \
+RUN apt-get update \
+  && apt-get install -y \
+    build-essential \
     git \
-    curl \
-    bison \
-    ca-certificates \
-    tzdata \
-    ruby \
-    ruby-rdoc \
-    ruby-irb \
-    ruby-bundler \
-    ruby-nokogiri \
-    ruby-dev \
-    glib-dev \
-    zlib-dev \
-    libc-dev && \
-    echo 'gem: --no-document' > /etc/gemrc && \
-    gem install github-pages --version 228 && \
-    gem install jekyll-watch && \
-    gem install jekyll-admin && \
-    apk del gcc g++ binutils bison perl nodejs make curl && \
-    rm -rf /var/cache/apk/*  \
-CMD ["exec", "jekyll"]
-ENTRYPOINT ["bundle"]
+    locales \
+    nodejs
+
+COPY Gemfile Gemfile
+
+RUN NOKOGIRI_USE_SYSTEM_LIBRARIES=true bundle install
+
+RUN \
+  echo "en_US UTF-8" > /etc/locale.gen && \
+  locale-gen en-US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+
+COPY entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
