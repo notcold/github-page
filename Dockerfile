@@ -1,6 +1,6 @@
 ARG RUBY_VERSION=2.7.4
 FROM ruby:$RUBY_VERSION-alpine
-
+VOLUME /home/mypage
 WORKDIR /home/mypage
 #
 # docker build -t "notcold/github" .
